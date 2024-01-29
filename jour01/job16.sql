@@ -1,0 +1,1 @@
+SELECT * FROM etudiant WHERE prenoms LIKE 'b%';
