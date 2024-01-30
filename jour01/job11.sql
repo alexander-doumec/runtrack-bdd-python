@@ -1,1 +1,1 @@
-SELECT + FROM etudiant WHERE nom = 'Gertrude' AND prenoms = 'Dupuis'
+SELECT * FROM etudiant WHERE nom = 'Gertrude' AND prenom = 'Dupuis';

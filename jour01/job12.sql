@@ -1,1 +1,1 @@
-INSERT INTO etudiant (nom, prenoms, age, email) VALUES ('Dupuis', 'Martin', 18, 'martin.dupuis@laplateforme.io');
+INSERT INTO etudiant (nom, prenom, age, email) VALUES ('Dupuis', 'Martin', 18, 'martin.dupuis@laplateforme.io');
