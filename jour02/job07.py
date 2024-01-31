@@ -1,36 +1,45 @@
 import mysql.connector
 
-host = "localhost"
-utilisateur = "root"
-mot_de_passe = "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"
-base_de_données = "employe"
+class Employe:
+    def __init__(self):
+        self.conn = mysql.connector.connect (
+            host = "localhost",
+            utilisateur = "root",
+            mot_de_passe = "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",
+            base_de_données = "employe"
+            )
+        
+        self.cursor = self.conn.cursor()
 
-#etablir la connexion 
-connexion = mysql.connector.connect(
-    host = host,
-    user = utilisateur,
-    password = mot_de_passe,
-    database = base_de_données
-)
+    def read_all_employes_with_service(self):
+        sql = """
+            SELECT employe.id, employe.nom, employe.prenom, employe.salaire, service.nom AS service_nom
+            FROM employe
+            JOIN service ON employe.id_service = service.id  """
+        
+        self.cursor.execute(sql)
+        result = self.cursor.fetchall
+        return result
+    
+    def __del__(self):
+        self.cursor.close()
+        self.conn.close()
+    
 
-#création d'un objet curseur pour exécuter des requêtes sql
-curseur = connexion.cursor()
+    
+employe_manager = Employe()
 
-# Exécuter la requête pour récupérer les noms et capacités de la table "salle"
-requete_sql = """
-    SELECT employe.id, employe.nom AS nom_employe, employe.prenom, employe.salaire, service.nom AS nom_service
-    FROM employe
-    LEFT JOIN service ON employe.id_service = service.id;"""
 
-curseur.execute(requete_sql)
+all_employes_with_service = employe_manager.read_all_employes_with_service()
 
-#Recupérer les résultat 
-resultats = curseur.fetchall()
+# Parcours des résultats et affichage en console
+for employe in all_employes_with_service:
+    print("ID:", employe[0])
+    print("Nom:", employe[1])
+    print("Prenom:", employe[2])
+    print("Salaire:", employe[3])
+    print("Service:", employe[4])
+    print("---------------------------")
 
-#afficher les resultats en console 
-for resultat in resultats:
-    print(resultat)
-
-#fermer le curseur
-curseur.close()
-connexion.close()
+# Suppression de l'objet Employe à la fin pour libérer les ressources
+del employe_manager
